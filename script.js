@@ -81,3 +81,76 @@ searchBtn.addEventListener('click', (e) => {  // Fixed 'click' string
     }
     fetchRecipes(searchInput);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const slide = document.querySelector('.carousel-slide');
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+    const cards = document.querySelectorAll('.cuisine-card');
+    
+    let currentIndex = 0;
+    const cardWidth = 320; // card width + gap
+    
+    // Clone first few cards and append to end for infinite scroll effect
+    const firstCards = Array.from(cards).slice(0, 3);
+    firstCards.forEach(card => {
+        const clone = card.cloneNode(true);
+        slide.appendChild(clone);
+    });
+    
+    function updateSlidePosition() {
+        slide.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
+    }
+    
+    function moveToNext() {
+        currentIndex++;
+        updateSlidePosition();
+        
+        // Reset to start when reaching end
+        if (currentIndex >= cards.length) {
+            setTimeout(() => {
+                slide.style.transition = 'none';
+                currentIndex = 0;
+                updateSlidePosition();
+                setTimeout(() => {
+                    slide.style.transition = 'transform 0.5s ease-in-out';
+                }, 50);
+            }, 500);
+        }
+    }
+    
+    function moveToPrev() {
+        if (currentIndex <= 0) {
+            slide.style.transition = 'none';
+            currentIndex = cards.length;
+            updateSlidePosition();
+            setTimeout(() => {
+                slide.style.transition = 'transform 0.5s ease-in-out';
+                currentIndex--;
+                updateSlidePosition();
+            }, 50);
+        } else {
+            currentIndex--;
+            updateSlidePosition();
+        }
+    }
+    
+    // Auto-slide every 3 seconds
+    const autoSlide = setInterval(moveToNext, 3000);
+    
+    // Event listeners for manual navigation
+    nextBtn.addEventListener('click', () => {
+        clearInterval(autoSlide);
+        moveToNext();
+    });
+    
+    prevBtn.addEventListener('click', () => {
+        clearInterval(autoSlide);
+        moveToPrev();
+    });
+    
+    // Pause auto-slide when hovering over carousel
+    slide.addEventListener('mouseenter', () => {
+        clearInterval(autoSlide);
+    });
+});

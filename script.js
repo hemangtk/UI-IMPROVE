@@ -3,6 +3,8 @@ const searchBtn = document.querySelector('.searchBtn');
 const recipeContainer = document.querySelector('.recipe-container');
 const recipeDetailsContent = document.querySelector('.recipe-details-content');
 const recipeCloseBtn = document.querySelector('.recipe-close-btn');
+const isSearchPage = window.location.pathname.includes('search-results.html');
+
 
 const fetchRecipes = async (query) => {
     recipeContainer.innerHTML = "<h2>Fetching Recipes...</h2>";
@@ -10,7 +12,7 @@ const fetchRecipes = async (query) => {
         const data = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
         const response = await data.json();
         
-        // Check if meals is null
+        
         if (!response.meals) {
             recipeContainer.innerHTML = "<h2>No recipes found...</h2>";
             return;
@@ -30,10 +32,11 @@ const fetchRecipes = async (query) => {
             
             const button = document.createElement('button');
             button.textContent = "View Recipe";
-            recipeDiv.appendChild(button);
+            
             button.addEventListener('click', () => {
                 openRecipePopup(meal);
             });
+            recipeDiv.appendChild(button);
             recipeContainer.appendChild(recipeDiv);
         });
     } catch (error) {
@@ -44,10 +47,10 @@ const fetchRecipes = async (query) => {
 const fetchIngredients = (meal) => {
     let ingredientsList = "";
     for (let i = 1; i <= 20; i++) {
-        const ingredient = meal[`strIngredient${i}`];  // Fixed template literal syntax
+        const ingredient = meal[`strIngredient${i}`];  
         if (ingredient) {
-            const measure = meal[`strMeasure${i}`];    // Fixed template literal syntax
-            ingredientsList += `<li>${measure} ${ingredient}</li>`; // Fixed template literal syntax
+            const measure = meal[`strMeasure${i}`];   
+            ingredientsList += `<li>${measure} ${ingredient}</li>`;     
         } else {
             break;
         }
@@ -72,15 +75,31 @@ recipeCloseBtn.addEventListener('click', () => {
     recipeDetailsContent.parentElement.style.display = "none";
 });
 
-searchBtn.addEventListener('click', (e) => {  // Fixed 'click' string
+searchBtn.addEventListener('click', (e) => {  
     e.preventDefault();
     const searchInput = searchBox.value.trim();
     if (!searchInput) {
         recipeContainer.innerHTML = "<h2>Type the meal in search box.</h2>";
         return;
     }
-    fetchRecipes(searchInput);
+
+    if (!isSearchPage) {
+        // If we're on the main page, redirect to search results page with query parameter
+        window.location.href = `search-results.html?q=${encodeURIComponent(searchInput)}`;
+    } else {
+        // If we're already on the search page, just fetch results
+        fetchRecipes(searchInput);
+    }
 });
+
+if (isSearchPage) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    if (query) {
+        searchBox.value = query;
+        fetchRecipes(query);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const slide = document.querySelector('.carousel-slide');

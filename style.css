@@ -7,10 +7,10 @@
 
 body{
   background:linear-gradient(to right, #F88379, #f5e0d2);
-  color:white;
+  color:#FAF0CA;
 }
 header nav{
-  background:linear-gradient(to left,#002D62, #002D62) ;
+  background-color: #07325a;
   padding:40px;
   display:flex;
   justify-content: space-between;
@@ -46,7 +46,7 @@ form button[type="submit"]{
 
 }
 form button[type="submit"]:hover,.recipe button:hover,.recipe-close-btn:hover{
-  background-color: rgb(126, 21, 21);
+  background-color: rgba(126, 21, 21, 0.692);
 }
 .recipe-container{
   text-align: center;
@@ -384,4 +384,23 @@ right: 10px;
   padding: 10px;
   font-size: 16px;
 }
+}
+
+.back-to-home {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background-color: rgb(201, 71, 71);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.back-to-home:hover {
+  background-color: rgba(126, 21, 21, 0.692);
 }

@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Search Results</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home" />  
 </head>
 <body>
     <header>
         <nav>
-            <h1>Recipe App</h1>
+            <h1><a href="index.html">Recipe App</a></h1>
             <form>
                 <input type="text" class="searchBox" placeholder="Enter recipe name...">
                 <button type="submit" class="searchBtn">Search</button>
@@ -18,17 +19,17 @@
     </header>
 
     <div class="recipe-container">
-        <!-- Search results will be loaded here -->
     </div>
-
+<div class="recipe-overlay">
     <div class="recipe-details">
         <div class="recipe-details-content">
         </div>
         <button type="button" class="recipe-close-btn">×</button>
     </div>
-
-    <button onclick="window.location.href='index.html'" class="back-to-home">Back to Home</button>
-
+</div>
+    <button onclick="window.location.href='index.html'" class="back-to-home"><span class="material-symbols-outlined">
+        home
+        </span></button>
     <script src="script.js"></script>
 </body>
 </html>

@@ -57,6 +57,7 @@ const fetchIngredients = (meal) => {
     }
     return ingredientsList;
 }
+const recipeOverlay = document.querySelector('.recipe-overlay');
 
 const openRecipePopup = (meal) => {
     recipeDetailsContent.innerHTML = `
@@ -69,10 +70,12 @@ const openRecipePopup = (meal) => {
         </div>
     `;
     recipeDetailsContent.parentElement.style.display = "block";
+    recipeOverlay.style.display = "block";
 }
 
 recipeCloseBtn.addEventListener('click', () => {
     recipeDetailsContent.parentElement.style.display = "none";
+    recipeOverlay.style.display = "none";
 });
 
 searchBtn.addEventListener('click', (e) => {  
